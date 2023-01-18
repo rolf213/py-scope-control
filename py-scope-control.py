@@ -4,7 +4,7 @@ import keyboard as key
 import pyvisa as visa
 rm = visa.ResourceManager()
 
-sw = 1
+ch = 1
 
 def init(ip):
     try:
@@ -23,10 +23,14 @@ def init(ip):
 
 def main():
     key.add_hotkey('q', lambda: inst.write("AUToscale"))
-    key.add_hotkey('1', lambda: chan(1))
-    key.add_hotkey('2', lambda: chan(2))
-    key.add_hotkey('3', lambda: chan(3))
-    key.add_hotkey('4', lambda: chan(4))
+    key.add_hotkey('1', lambda: chan(1,1))
+    key.add_hotkey('2', lambda: chan(2,1))
+    key.add_hotkey('3', lambda: chan(3,1))
+    key.add_hotkey('4', lambda: chan(4,1))
+    key.add_hotkey('ctrl + 1', lambda: chan(1,0))
+    key.add_hotkey('ctrl + 2', lambda: chan(2,0))
+    key.add_hotkey('ctrl + 3', lambda: chan(3,0))
+    key.add_hotkey('ctrl + 4', lambda: chan(4,0))
     # key.add_hotkey('F1', lambda: chan(1))
     # key.add_hotkey('F2', lambda: chan(2))
     # key.add_hotkey('F3', lambda: chan(3))
@@ -40,6 +44,7 @@ def main():
     while 1:
         print("wybierz komende: \
         \n1, 2, 3, 4 - załączanie kanału \
+        \nctrl + 1, 2, 3, 4 - wybór aktywnego kanału \
         \na - autoscale \
         \nb - bip \
         \nw, a, s, d - wzmocnienie, podstawa czasu \
@@ -67,12 +72,13 @@ def main():
         # print("\n\n\n")
 
 
-def chan(ch: int):
+def chan(ch: int, sw: int):
     ch = str(ch)
     state = inst.query(":CHANnel" + ch + ":DISPlay?")
-    state = str(1-int(state))
-    inst.write(":CHANnel" + ch + ":DISPlay " + state)
-    print("test")
+    if sw==1:
+        state = str(1-int(state))
+        inst.write(":CHANnel" + ch + ":DISPlay " + state)
+
 
 def ampVert(op: str):
     # ch = input("wybierz kanał: ")
@@ -81,15 +87,15 @@ def ampVert(op: str):
     # print(inst.query(":CHANnel" + ch + ":SCALe?"))
     # scale = float(inst.query(":CHANnel" + ch + ":SCALe?"))
     # #op = input("up - zwiększ \ndown - zmniejsz \n")
-    print(inst.query(":CHANnel" + "1" + ":SCALe?"))
-    scale = float(inst.query(":CHANnel" + "1" + ":SCALe?"))
+    print(inst.query(":CHANnel" + ch + ":SCALe?"))
+    scale = float(inst.query(":CHANnel" + ch + ":SCALe?"))
     if op=="up":
         scale=str(scale/1.5)
     elif op=="down":
         scale=str(scale*1.5)
     else:
         print("złe polecenie")
-    inst.write(":CHANnel" + "1" + ":SCALe " + scale)
+    inst.write(":CHANnel" + ch + ":SCALe " + scale)
 
 def ampHoriz(op: str):
     print(inst.query(":TIMebase:RANGe?"))

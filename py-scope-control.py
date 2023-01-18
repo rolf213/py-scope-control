@@ -40,6 +40,10 @@ def main():
     key.add_hotkey('s', lambda: ampVert('down'))
     key.add_hotkey('a', lambda: ampHoriz('left'))
     key.add_hotkey('d', lambda: ampHoriz('right'))
+    key.add_hotkey('ctrl + w', lambda: ampVert('up'))
+    key.add_hotkey('ctrl + s', lambda: ampVert('down'))
+    key.add_hotkey('ctrl + a', lambda: ampHoriz('left'))
+    key.add_hotkey('ctrl + d', lambda: ampHoriz('right'))
     key.add_hotkey('esc', lambda: close())
     while 1:
         print("wybierz komende: \
@@ -48,6 +52,7 @@ def main():
         \na - autoscale \
         \nb - bip \
         \nw, a, s, d - wzmocnienie, podstawa czasu \
+        \nctrl + w, a ,s, d - offset \
         \nesc - przerwij połączenie")
         try:
             key.wait()
@@ -111,6 +116,32 @@ def ampHoriz(op: str):
 
     print(scale)
     inst.write(":TIMebase:RANGe " + scale)
+
+def offVert(op: str):
+    print(inst.query(":CHANnel" + ch + ":SCALe?"))
+    off = float(inst.query(":CHANnel" + ch + ":SCALe?"))
+    if op=="up":
+        off=str(off+0.1*off)
+    elif op=="down":
+        off=str(off-0.1*off)
+    else:
+        print("złe polecenie")
+    inst.write(":CHANnel" + ch + ":OFFset" + off)
+
+def offHoriz(op: str):
+    print(inst.query(":TIMebase:RANGe?"))
+    off = float(inst.query(":TIMebase:RANGe?"))
+    print(off)
+    if op=="right":
+        off=str(off+0.1*off)
+    elif op=="left":
+        off=str(off-0.1*off)
+    else:
+        print("złe polecenie")
+
+    print(off)
+    inst.write(":TIMebase:WINDow:POSition" + off)
+
 
 def close():
     inst.close()

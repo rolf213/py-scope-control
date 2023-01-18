@@ -4,7 +4,7 @@ import keyboard as key
 import pyvisa as visa
 rm = visa.ResourceManager()
 
-Ch = 1
+Ch: str = 1
 
 def init(ip):
     try:
@@ -17,9 +17,6 @@ def init(ip):
     except:
         print("\npołączenie nieudane\n")
         return 0
-
-
-
 
 def main():
     key.add_hotkey('q', lambda: inst.write("AUToscale"))
@@ -56,6 +53,10 @@ def main():
         \nw, a, s, d - wzmocnienie, podstawa czasu \
         \nctrl + w, a ,s, d - offset \
         \nesc - przerwij połączenie, zakończ program")
+        try:
+            key.wait()
+        except:
+            print("złe polecenie")
 
 def chanSw(ch: int):
     ch = str(ch)
@@ -65,7 +66,7 @@ def chanSw(ch: int):
 
 def chanSel(ch: int):
     global Ch
-    Ch=ch
+    Ch=str(ch)
 
 def ampVert(op: str):
     print(inst.query(":CHANnel" + Ch + ":SCALe?"))
@@ -114,7 +115,6 @@ def offHoriz(op: str):
         print("złe polecenie")
     print(off)
     inst.write(":TIMebase:WINDow:POSition" + off)
-
 
 def close():
     inst.close()

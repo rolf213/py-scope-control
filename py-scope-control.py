@@ -37,7 +37,7 @@ def main():
     key.add_hotkey('a', lambda: ampHoriz('left'))
     key.add_hotkey('d', lambda: ampHoriz('right'))
     key.add_hotkey('esc', lambda: close())
-    while sw:
+    while 1:
         print("wybierz komende: \
         \n1, 2, 3, 4 - załączanie kanału \
         \na - autoscale \
@@ -108,9 +108,7 @@ def ampHoriz(op: str):
 
 def close():
     inst.close()
-    global sw
-    sw = 0
-    return
+    raise SystemExit()
 
 while init(input("ip urządzenia: 192.168.0."))==0:
     pass

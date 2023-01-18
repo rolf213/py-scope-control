@@ -114,7 +114,7 @@ def offHoriz(op: str):
     else:
         print("złe polecenie")
     print(off)
-    inst.write(":TIMebase:WINDow:POSition" + off)
+    inst.write(":TIMebase:POSition" + off)
 
 def close():
     inst.close()

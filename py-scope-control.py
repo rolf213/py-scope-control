@@ -96,9 +96,9 @@ def offVert(op: str):
     print(inst.query(":CHANnel" + Ch + ":SCALe?"))
     off = float(inst.query(":CHANnel" + Ch + ":SCALe?"))
     if op=="up":
-        off=str(off+0.1*off)
+        off=str(0.1*off)
     elif op=="down":
-        off=str(off-0.1*off)
+        off=str(-0.1*off)
     else:
         print("złe polecenie")
     inst.write(":CHANnel" + Ch + ":OFFset" + off)
@@ -108,9 +108,9 @@ def offHoriz(op: str):
     off = float(inst.query(":TIMebase:RANGe?"))
     print(off)
     if op=="right":
-        off=str(off+0.1*off)
+        off=str(0.1*off)
     elif op=="left":
-        off=str(off-0.1*off)
+        off=str(-0.1*off)
     else:
         print("złe polecenie")
     print(off)

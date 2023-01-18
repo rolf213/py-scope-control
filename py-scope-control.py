@@ -4,7 +4,7 @@ import keyboard as key
 import pyvisa as visa
 rm = visa.ResourceManager()
 
-ch = 1
+Ch = 1
 
 def init(ip):
     try:
@@ -24,15 +24,15 @@ def init(ip):
 def main():
     key.add_hotkey('q', lambda: inst.write("AUToscale"))
 #załączanie kanałów
-    key.add_hotkey('1', lambda: chan(1,1))
-    key.add_hotkey('2', lambda: chan(2,1))
-    key.add_hotkey('3', lambda: chan(3,1))
-    key.add_hotkey('4', lambda: chan(4,1))
+    key.add_hotkey('1', lambda: chanSw(1))
+    key.add_hotkey('2', lambda: chanSw(2))
+    key.add_hotkey('3', lambda: chanSw(3))
+    key.add_hotkey('4', lambda: chanSw(4))
 #wybór kanału
-    key.add_hotkey('F1', lambda: chan(1,0))
-    key.add_hotkey('F2', lambda: chan(2,0))
-    key.add_hotkey('F3', lambda: chan(3,0))
-    key.add_hotkey('F4', lambda: chan(4,0))
+    key.add_hotkey('F1', lambda: chanSel(1))
+    key.add_hotkey('F2', lambda: chanSel(2))
+    key.add_hotkey('F3', lambda: chanSel(3))
+    key.add_hotkey('F4', lambda: chanSel(4))
 
     key.add_hotkey('b', lambda: inst.write(":BEEP"))
 #wzmocnienie
@@ -50,31 +50,33 @@ def main():
     while 1:
         print("wybierz komende: \
         \n1, 2, 3, 4 - załączanie kanału \
-        \nctrl + 1, 2, 3, 4 - wybór aktywnego kanału \
+        \nF1, F2, F3, F4 - wybór aktywnego kanału \
         \na - autoscale \
         \nb - bip \
         \nw, a, s, d - wzmocnienie, podstawa czasu \
         \nctrl + w, a ,s, d - offset \
         \nesc - przerwij połączenie, zakończ program")
 
-def chan(ch: int, sw: int):
+def chanSw(ch: int):
     ch = str(ch)
     state = inst.query(":CHANnel" + ch + ":DISPlay?")
-    if sw==1:
-        state = str(1-int(state))
-        inst.write(":CHANnel" + ch + ":DISPlay " + state)
+    state = str(1-int(state))
+    inst.write(":CHANnel" + ch + ":DISPlay " + state)
 
+def chanSel(ch: int):
+    global Ch
+    Ch=ch
 
 def ampVert(op: str):
-    print(inst.query(":CHANnel" + ch + ":SCALe?"))
-    scale = float(inst.query(":CHANnel" + ch + ":SCALe?"))
+    print(inst.query(":CHANnel" + Ch + ":SCALe?"))
+    scale = float(inst.query(":CHANnel" + Ch + ":SCALe?"))
     if op=="up":
         scale=str(scale/1.5)
     elif op=="down":
         scale=str(scale*1.5)
     else:
         print("złe polecenie")
-    inst.write(":CHANnel" + ch + ":SCALe " + scale)
+    inst.write(":CHANnel" + Ch + ":SCALe " + scale)
 
 def ampHoriz(op: str):
     print(inst.query(":TIMebase:RANGe?"))
@@ -90,15 +92,15 @@ def ampHoriz(op: str):
     inst.write(":TIMebase:RANGe " + scale)
 
 def offVert(op: str):
-    print(inst.query(":CHANnel" + ch + ":SCALe?"))
-    off = float(inst.query(":CHANnel" + ch + ":SCALe?"))
+    print(inst.query(":CHANnel" + Ch + ":SCALe?"))
+    off = float(inst.query(":CHANnel" + Ch + ":SCALe?"))
     if op=="up":
         off=str(off+0.1*off)
     elif op=="down":
         off=str(off-0.1*off)
     else:
         print("złe polecenie")
-    inst.write(":CHANnel" + ch + ":OFFset" + off)
+    inst.write(":CHANnel" + Ch + ":OFFset" + off)
 
 def offHoriz(op: str):
     print(inst.query(":TIMebase:RANGe?"))

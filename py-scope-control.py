@@ -22,15 +22,15 @@ def init(ip):
 def main():
     key.add_hotkey('q', lambda: inst.write("AUToscale"))
 #załączanie kanałów
-    key.add_hotkey('1', lambda: chanSw(1))
-    key.add_hotkey('2', lambda: chanSw(2))
-    key.add_hotkey('3', lambda: chanSw(3))
-    key.add_hotkey('4', lambda: chanSw(4))
+    key.add_hotkey('1', lambda: chanSw('1'))
+    key.add_hotkey('2', lambda: chanSw('2'))
+    key.add_hotkey('3', lambda: chanSw('3'))
+    key.add_hotkey('4', lambda: chanSw('4'))
 #wybór kanału
-    key.add_hotkey('F1', lambda: chanSel(1))
-    key.add_hotkey('F2', lambda: chanSel(2))
-    key.add_hotkey('F3', lambda: chanSel(3))
-    key.add_hotkey('F4', lambda: chanSel(4))
+    key.add_hotkey('F1', lambda: chanSel('1'))
+    key.add_hotkey('F2', lambda: chanSel('2'))
+    key.add_hotkey('F3', lambda: chanSel('3'))
+    key.add_hotkey('F4', lambda: chanSel('4'))
 
     key.add_hotkey('b', lambda: inst.write(":BEEP"))
 #wzmocnienie
@@ -61,15 +61,14 @@ def main():
             print("złe polecenie")
         
 
-def chanSw(ch: int):
-    ch = str(ch)
+def chanSw(ch: str):
     state = inst.query(":CHANnel" + ch + ":DISPlay?")
     state = str(1-int(state))
     inst.write(":CHANnel" + ch + ":DISPlay " + state)
 
-def chanSel(ch: int):
+def chanSel(ch: str):
     global Ch
-    Ch=str(ch)
+    Ch=ch
 
 def ampVert(op: str):
     global Ch

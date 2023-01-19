@@ -5,7 +5,7 @@ import pyvisa as visa
 import os
 rm = visa.ResourceManager()
 
-Ch: str = 1
+Ch: str = str(1)
 
 def init(ip):
     try:

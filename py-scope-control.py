@@ -2,6 +2,7 @@
 
 import keyboard as key
 import pyvisa as visa
+import os
 rm = visa.ResourceManager()
 
 Ch: str = 1
@@ -43,7 +44,8 @@ def main():
     key.add_hotkey('ctrl + a', lambda: offHoriz('left'))
     key.add_hotkey('ctrl + d', lambda: offHoriz('right'))
     
-    key.add_hotkey('esc', lambda: close())
+    key.add_hotkey('escape', lambda: close())
+
     while 1:
         print("wybierz komende: \
         \n1, 2, 3, 4 - załączanie kanału \
@@ -57,6 +59,7 @@ def main():
             key.wait()
         except:
             print("złe polecenie")
+        
 
 def chanSw(ch: int):
     ch = str(ch)
@@ -69,6 +72,8 @@ def chanSel(ch: int):
     Ch=str(ch)
 
 def ampVert(op: str):
+    global Ch
+    Ch = str(Ch)
     print(inst.query(":CHANnel" + Ch + ":SCALe?"))
     scale = float(inst.query(":CHANnel" + Ch + ":SCALe?"))
     if op=="up":
@@ -82,7 +87,6 @@ def ampVert(op: str):
 def ampHoriz(op: str):
     print(inst.query(":TIMebase:RANGe?"))
     scale = float(inst.query(":TIMebase:RANGe?"))
-    print(scale)
     if op=="right":
         scale=str(scale/2)
     elif op=="left":
@@ -93,14 +97,18 @@ def ampHoriz(op: str):
     inst.write(":TIMebase:RANGe " + scale)
 
 def offVert(op: str):
-    print(inst.query(":CHANnel" + Ch + ":SCALe?"))
+    global Ch
+    Ch=str(Ch)
     off = float(inst.query(":CHANnel" + Ch + ":SCALe?"))
+    # print(inst.query(":CHANnel" + Ch + ":SCALe?"))
+    # off = float(inst.query(":CHANnel" + Ch + ":SCALe?"))
     if op=="up":
         off=str(0.1*off)
     elif op=="down":
         off=str(-0.1*off)
     else:
         print("złe polecenie")
+    print(off)
     inst.write(":CHANnel" + Ch + ":OFFset" + off)
 
 def offHoriz(op: str):
@@ -114,11 +122,11 @@ def offHoriz(op: str):
     else:
         print("złe polecenie")
     print(off)
-    inst.write(":TIMebase:POSition" + off)
+    inst.write(":TIMebase:WINDow:DELay" + off)
 
 def close():
     inst.close()
-    raise SystemExit()
+    os._exit(1)
 
 while init(input("ip urządzenia: 192.168.0."))==0:
     pass

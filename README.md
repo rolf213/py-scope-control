@@ -7,7 +7,19 @@ pyvisa,
 
 pyvisa-py,
 
-os.
+os,
+
+math,
+
+pickle,
+
+mediapipe,
+
+cv2,
+
+numpy,
+
+uuid.
 
 **Sterowniki:**
 

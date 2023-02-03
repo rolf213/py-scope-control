@@ -1,0 +1,22 @@
+mediapipe wymaga pythona 3.7.9, trzeba go zainstalować
+
+
+
+(w cmd)
+pip insatall virtualenv
+
+zamknij i uruchom ponownie cmd (możliwa potrzeba uruchomienia jako administrator)
+
+cd (ścieżka do folderu z projektem)
+
+python -m virtualenv -p="(ścieżka do py37 np: C:\... ...Python37\python.exe)" (jakaśnazwa)
+
+cd jakaśnazwa\Scripts
+
+activate
+
+pip3.7 install mediapipe
+
+
+
+przenieść zawartość scripts do scripts w stworzonym środowisku

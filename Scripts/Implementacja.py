@@ -4,6 +4,14 @@ import numpy as np
 import uuid #random string zapisywanie
 import os
 import HandshapeRecognizer as hr
+import py_scope_control_lib as scope
+import pyvisa as visa
+
+rm = visa.ResourceManager()
+# init = scope.init()
+# jak nie działa przenieść init do implementacji
+while scope.init(input("ip urządzenia: 192.168.0."))==0:
+    pass
 
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands

@@ -1,9 +1,0 @@
-(w cmd)
-
-cd (ścieżka)
-
-python -m venv (ścieżka)
-
-activate
-
-pip install mediapipe

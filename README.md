@@ -1,8 +1,6 @@
-**Python package:**
-
-
 ![alt text](https://github.com/rolf213/py-scope-control/blob/dev-coupling/projectimg.png)
 
+**Python package:**
 
 keyboard,
 

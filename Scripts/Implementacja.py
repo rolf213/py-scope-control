@@ -7,9 +7,17 @@ import HandshapeRecognizer as hr
 import py_scope_control_lib as scope
 import pyvisa as visa
 
-rm = visa.ResourceManager()
+i = ""
+t=0
+
+commands = {
+    "A": scope.autoscale,
+    "B": scope.hello
+}
+
 # init = scope.init()
 # jak nie działa przenieść init do implementacji
+camera=int(input("camera: "))
 while scope.init(input("ip urządzenia: 192.168.0."))==0:
     pass
 
@@ -17,7 +25,7 @@ mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 #mp_drawing_styles = mp.solutions.drawing_styles
 
-cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+cap = cv2.VideoCapture(camera, cv2.CAP_DSHOW)
 
 frameWidth = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
 frameHeight = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
@@ -47,9 +55,18 @@ with mp_hands.Hands(model_complexity=1,min_detection_confidence=0.5, min_trackin
                 mp_drawing.draw_landmarks(frame, hand, mp_hands.HAND_CONNECTIONS, 
                 mp_drawing.DrawingSpec(color=(121,22,76),thickness=2,circle_radius=4),
                 mp_drawing.DrawingSpec(color=(121,44,76),thickness=2,circle_radius=2))
-				
-        predictedLabel = handshapeRecognizer.run(results, frameWidth, frameHeight)
-        print(predictedLabel)
+        t += 1
+        if(t>=10):
+            predictedLabel = handshapeRecognizer.run(results, frameWidth, frameHeight)
+            print(predictedLabel)
+            t=0
+        try:
+            if(i!=predictedLabel):
+                commands[predictedLabel]()
+            i = predictedLabel
+        except:
+            i=""
+            pass
 
         #cv2.imwrite(
         #    os.path.join(

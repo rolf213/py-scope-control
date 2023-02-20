@@ -1,5 +1,9 @@
 #biblioteki: pyvisa   pyvisa-py
 
+import keyboard as key
+import pyvisa as visa
+rm = visa.ResourceManager()
+
 def init(ip):
     try:
         global inst
@@ -11,6 +15,12 @@ def init(ip):
     except:
         print("\npołączenie nieudane\n")
         return 0
+
+def autoscale():
+    inst.write(":AUToscale")
+
+def hello():
+    inst.write(':DISPlay:BOOKmark1:SET 1,"Przywitanie"[,"Dzien dobry"[,0]]')
 
 def chan(ch: int):
     ch = str(ch)

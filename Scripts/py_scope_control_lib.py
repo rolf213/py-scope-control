@@ -20,10 +20,17 @@ def autoscale():
     inst.write(":AUToscale")
 
 def hello():
-    inst.write(':DISPlay:BOOKmark1:SET 1,"Przywitanie"[,"Dzien dobry"[,0]]')
+    inst.write(':DISP:ANN1 ON')
+    inst.write(':DISP:ANN1:COL RED')
+    inst.write(':DISP:ANN1:BACK INV')
+    inst.write(':DISP:ANN1:TEXT "witamy"')
 
-def chan(ch: int):
-    ch = str(ch)
+def clear():
+    inst.write(":DISP:ANN1 OFF")
+
+def chan():#(ch: int):
+    #ch = str(ch)
+    ch = '1'
     state = inst.query(":CHANnel" + ch + ":DISPlay?")
     state = str(1-int(state))
     inst.write(":CHANnel" + ch + ":DISPlay " + state)

@@ -10,6 +10,12 @@ import pyvisa as visa
 i = ""
 t=0
 
+# init = scope.init()
+# jak nie działa przenieść init do implementacji
+camera=int(input("camera: "))
+while scope.init(input("ip urządzenia: 192.168.0."))==0:
+    pass
+
 commands = {
     "A": scope.autoscale,
     "B": scope.hello,
@@ -24,11 +30,7 @@ commands = {
     "vertAmp-": scope.ampVert("left")
 }
 
-# init = scope.init()
-# jak nie działa przenieść init do implementacji
-camera=int(input("camera: "))
-while scope.init(input("ip urządzenia: 192.168.0."))==0:
-    pass
+
 
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands

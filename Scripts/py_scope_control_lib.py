@@ -27,15 +27,17 @@ def hello():
 
 def clear():
     inst.write(":DISP:ANN1 OFF")
-
-def chan(ch: int):#(ch: int):
+"""
+def chan():#(ch: int):
     ch = str(ch)
     #ch = '1'
-    state = inst.query(":CHANnel" + ch + ":DISPlay?")
+    state = inst.query(":CHANnel" + "1" + ":DISPlay?")
     state = str(1-int(state))
-    inst.write(":CHANnel" + ch + ":DISPlay " + state)
+    inst.write(":CHANnel" + "1" + ":DISPlay " + "1")
     print("test")
-
+"""
+def chan():
+  print("test")  
 def ampVert(op: str):
     # ch = input("wybierz kanał: ")
     # ch = 1
@@ -66,7 +68,7 @@ def ampHoriz(op: str):
         print("złe polecenie")
 
     print(scale)
-    inst.write(":TIMebase:RANGe " + scale)
+    inst.write(":TIMebase:RANGe " + str(scale))
 
 def close():
     inst.close()

@@ -24,8 +24,8 @@ commands = {
     "II_thumb": scope.chan(2),
     "III_thumb": scope.chan(3),
     "IV": scope.chan(4),
-    "horizAmp+": scope.ampHoriz("up"),
-    "horizAmp-": scope.ampHoriz("down"),
+   # "horizAmp+": scope.ampHoriz("up"),
+   # "horizAmp-": scope.ampHoriz("down"),
     "vertAmp+": scope.ampVert("right"),
     "vertAmp-": scope.ampVert("left")
 }

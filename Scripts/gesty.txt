@@ -1,0 +1,11 @@
+A-pięść, wierzch od kamery
+B-otwarta dłoń, do kamery
+C-haczyk z kciuka i palca wskazującego
+1-wskazujący w górę, wierzch do kamery
+2-kciuk+wskazujący w górę, wierzch do kamery
+3-kciuk+wskazujący+środkowy, wierzch do kamery
+4_thumb-wszystkie palce oprócz kciuka rozchylone, wierzch do kamery
+up-otwarta dłoń z kciukiem na zewnątrz, wierzch do kamery
+down-kciuk w dół, wierzch od kamery
+right-L z dłoni, wskazujący do kamery
+left-L z dłoni, mały do kamery

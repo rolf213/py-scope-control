@@ -17,7 +17,9 @@ def init(ip):
         return 0
 
 def autoscale():
+    inst.write(":SYST:BEEP:STAT 1")
     inst.write(":AUToscale")
+    inst.write(":BEEP")
 
 def hello():
     inst.write(':DISP:ANN1 ON')
@@ -25,19 +27,25 @@ def hello():
     inst.write(':DISP:ANN1:BACK INV')
     inst.write(':DISP:ANN1:TEXT "witamy"')
 
+
+def zlm(f: str):
+    inst.write(':DISP:ANN1 ON')
+    inst.write(':DISP:ANN1:COL RED')
+    inst.write(':DISP:ANN1:BACK INV')
+    inst.write(':DISP:ANN1:TEXT "witamy"')
+    inst.write(":DISP:ANN1 OFF")
+
 def clear():
     inst.write(":DISP:ANN1 OFF")
-"""
-def chan():#(ch: int):
+
+def chan(ch: str):#(ch: int):
     ch = str(ch)
     #ch = '1'
-    state = inst.query(":CHANnel" + "1" + ":DISPlay?")
+    state = inst.query(":CHANnel" + ch + ":DISPlay?")
     state = str(1-int(state))
-    inst.write(":CHANnel" + "1" + ":DISPlay " + "1")
+    inst.write(":CHANnel" + ch + ":DISPlay " + state)
     print("test")
-"""
-def chan():
-  print("test")  
+
 def ampVert(op: str):
     # ch = input("wybierz kanał: ")
     # ch = 1
@@ -53,7 +61,7 @@ def ampVert(op: str):
         scale=str(scale*1.5)
     else:
         print("złe polecenie")
-    inst.write(":CHANnel" + "1" + ":SCALe " + scale)
+    inst.write(":CHANnel" + "1" + ":SCALe " + str(scale))
 
 def ampHoriz(op: str):
     print(inst.query(":TIMebase:RANGe?"))
@@ -68,7 +76,7 @@ def ampHoriz(op: str):
         print("złe polecenie")
 
     print(scale)
-    inst.write(":TIMebase:RANGe " + str(scale))
+    inst.write(":TIMebase:RANGe " + scale)
 
 def close():
     inst.close()

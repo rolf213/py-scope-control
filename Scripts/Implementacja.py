@@ -1,36 +1,42 @@
+import threading
 import mediapipe as mp
 import cv2
 import numpy as np
 import uuid #random string zapisywanie
 import os
-import HandshapeRecognizer as hr
-import py_scope_control_lib as scope
+import Scripts.HandshapeRecognizer as hr
+#import Scripts.py_scope_control_lib as scope
+#import HandshapeRecognizer as hr
+# import .py_scope_control_lib as scope
+import Scripts.py_scope_control_lib
 import pyvisa as visa
+rm = visa.ResourceManager()
+scope = Scripts.py_scope_control_lib
 
 i = ""
 t=0
 
-# init = scope.init()
+
+#init = scope.init()
 # jak nie działa przenieść init do implementacji
 camera=int(input("camera: "))
 while scope.init(input("ip urządzenia: 192.168.0."))==0:
     pass
 
+
 commands = {
-    "A": scope.autoscale,
-    "B": scope.hello,
-    "C": scope.clear,
-    "I_thumb": scope.chan(1),
-    "II_thumb": scope.chan(2),
-    "III_thumb": scope.chan(3),
-    "IV": scope.chan(4),
-   # "horizAmp+": scope.ampHoriz("up"),
-   # "horizAmp-": scope.ampHoriz("down"),
-    "vertAmp+": scope.ampVert("right"),
-    "vertAmp-": scope.ampVert("left")
+    "A": ( lambda: scope.autoscale() ),
+    "B": ( lambda: scope.hello() ),
+    "C": ( lambda: scope.clear() ),
+    "1": ( lambda: scope.chan(1) ),
+    "2": ( lambda: scope.chan(2) ),
+    "3": ( lambda: scope.chan(3) ),   
+    "4": ( lambda: scope.chan(4) ),
+    "right": ( lambda: scope.ampHoriz("right") ),
+    "left": ( lambda: scope.ampHoriz("left") ),
+    "up": ( lambda: scope.ampVert("up") ),
+    "down": ( lambda: scope.ampVert("down")),
 }
-
-
 
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
@@ -67,7 +73,7 @@ with mp_hands.Hands(model_complexity=1,min_detection_confidence=0.5, min_trackin
                 mp_drawing.DrawingSpec(color=(121,22,76),thickness=2,circle_radius=4),
                 mp_drawing.DrawingSpec(color=(121,44,76),thickness=2,circle_radius=2))
         t += 1
-        if(t>=10):
+        if(t>=6):
             predictedLabel = handshapeRecognizer.run(results, frameWidth, frameHeight)
             print(predictedLabel)
             t=0

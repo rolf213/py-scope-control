@@ -61,6 +61,8 @@ with mp_hands.Hands(model_complexity=1,min_detection_confidence=0.5, min_trackin
         #jakby nie działało to te flagi do zmiany
         image.flags.writeable = False
         results = hands.process(image)
+        if results.multi_handedness[0].classification[0].label == "Left":
+            results = hands.process(cv2.flip(image,0))
         image.flags.writeable = True
 
         #image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
